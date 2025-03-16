@@ -4,12 +4,71 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   height: 100vh;
   font-family: Arial, sans-serif;
   background-color: black;
   color: white;
 }
+
+.navbar {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  padding: 15px;
+  border-radius: 10px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.nav-item {
+  color: white;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 50%;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  position: relative;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Tooltip (Text on Hover) */
+.nav-item::after {
+  content: attr(data-text);
+  position: absolute;
+  right: 50px; /* Position text to the left of the icon */
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity 0.3s, transform 0.3s;
+  white-space: nowrap;
+}
+
+.nav-item:hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 
 .section {
   height: 100vh;
@@ -119,6 +178,20 @@ ul {
   border-radius: 50%;
 }
 
+#profile-pic {
+  opacity: 0; /* Initially hidden */
+  transform: rotate(-360deg) scale(0.1); /* Spins fully and starts tiny */
+    transition: opacity 0.6s ease-out, 
+                transform 1.8s cubic-bezier(0.05, 3, 0.3, 1.7); 
+
+}
+
+#profile-pic.visible {
+  opacity: 1;
+    transform: rotate(0deg) scale(1); /* Rotate to normal and scale up */
+}
+
+
 .poiret-one-regular {
   font-family: "Poiret One", sans-serif;
   font-weight: 400;
@@ -130,14 +203,243 @@ ul {
   padding: 24px;
   font-size: 18px;
   border-radius: 50px;
+  font-weight: 400;
 }
 
-.page-title{
-    position: absolute;
+.page-title {
+  /* position: absolute;
     top: 6%;
-    left: 10%;
-    font-size: 24px;
+    left: 10%; */
+  text-align: center;
+  font-size: 30px;
 }
+
+/* Skills Section Styling */
+#skills {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.skills-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+
+.skills {
+  text-align: center;
+}
+
+/* Skills Title */
+.skills-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Skills List */
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Skill Item Styling */
+.skill {
+  font-size: 18px;
+  background: #3e3e3e;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  opacity: 0;
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+}
+
+/* Default state before scrolling */
+.skill {
+  transform: translateX(-150px);
+}
+
+/* Alternate effect: slide from right */
+.skills-list .skill:nth-child(even) {
+  transform: translateX(150px);
+}
+
+/* Active state when visible */
+.skills.active .skill {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Hide again when out of view */
+.skills.hidden .skill {
+  opacity: 0;
+  transform: translateX(-150px);
+}
+
+.skills.hidden .skills-list .skill:nth-child(even) {
+  transform: translateX(150px);
+}
+
+.lh{
+  position: relative;
+  width: 100%;
+  height: 10px;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.support{
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  
+}
+
+.support-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+/* Tube Light */
+.tube-light {
+  position: relative;
+  width: 30%;
+  height: 12px;
+  background: white;
+  margin: 0 auto;
+  border-radius: 5px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.9), 
+              0 0 40px rgba(255, 255, 255, 0.6); 
+  animation: flicker 1.5s infinite alternate;
+}
+
+/* Soft Center Glow - Ellipse */
+.tube-light::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 300px;
+  height: 150px;
+  background: radial-gradient(
+      ellipse at top,
+      rgba(255, 255, 200, 0.8) 10%, 
+      rgba(255, 255, 200, 0.3) 60%, 
+      rgba(255, 255, 200, 0) 100%
+  );
+  transform: translateX(-50%);
+  filter: blur(30px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* Gradient Light Spread - Polygon */
+.lh::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 1200px;
+  height: 500px;
+  background: linear-gradient(
+    rgba(255, 255, 200, 0.8) 10%, 
+    rgba(255, 255, 200, 0.3) 60%, 
+      rgba(255, 255, 180, 0.1) 90%, 
+      rgba(255, 255, 180, 0) 100%
+  ); /* Gradient fade */
+  clip-path: polygon(10% 100%, 50% 0%, 90% 100%);
+  transform: translateX(-50%);
+  filter: blur(40px);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Flickering Effect */
+@keyframes flicker {
+  0% { opacity: 1; }
+  20% { opacity: 0.85; }
+  40% { opacity: 1; }
+  60% { opacity: 0.9; }
+  80% { opacity: 1; }
+  100% { opacity: 0.8; }
+}
+
+/*Services Section Styling */
+
+.services-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 40px 0;
+}
+
+.service-card {
+  width: 250px;
+  height: 150px;
+  perspective: 1000px;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease-in-out;
+}
+
+.service-card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  font-size: 16px;
+}
+
+.card-front {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+}
+
+.card-back {
+  background: rgb(88, 88, 88);
+  color: white;
+  transform: rotateY(180deg);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Projects Section Styling */
 
 .project-container {
   display: grid;
@@ -148,16 +450,85 @@ ul {
   margin-top: 30px;
 }
 
-.project-img{
-    width: 300px;
-    height: 200px;
-    border: solid 1px white;
-    border-radius: 10px;
+.project-img {
+  width: 300px;
+  height: 200px;
+  border: solid 1px white;
+  border-radius: 10px;
 }
 
 a {
   text-decoration: none;
   color: white;
+}
+
+#projects {
+  text-align: center;
+}
+
+#project-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.project-card {
+  width: 300px;
+  padding: 15px;
+  border: 2px solid #333;
+  border-radius: 10px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+  text-align: center;
+  background: #222;
+  color: #fff;
+  opacity: 0; /* Initially hidden */
+  transform: scale(0.8);
+}
+
+.project-card.visible {
+  animation: scaleUp 0.5s ease-in-out forwards;
+}
+
+.project-card:hover {
+  transform: scale(1.05);
+}
+
+.project-image {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  border: solid 1px rgba(255, 255, 255, 0.6);
+}
+
+.project-card h3 {
+  margin: 10px 0;
+}
+
+.project-card a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background: #333;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.project-card a:hover {
+  background: #555;
 }
 
 .contact-container {
@@ -170,7 +541,7 @@ a {
   line-height: 20px;
 }
 
-.contact-cont{
+.contact-cont {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -178,7 +549,7 @@ a {
   margin: 30px;
 }
 
-.contact-form{
+.contact-form {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -186,10 +557,9 @@ a {
   row-gap: 10px;
 }
 
-.contact-form-container{
+.contact-form-container {
   grid-row: span 2;
 }
-
 
 .contact-form {
   display: flex;
@@ -232,6 +602,66 @@ a {
   color: #aaa;
 }
 
-.contact-desc img{
+.contact-desc img {
   height: 32px;
+}
+
+/*work section*/
+#projects {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+  text-align: center;
+}
+
+.project-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.project-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-image {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.project-image img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.project-details {
+  width: 50%;
+  text-align: left;
+}
+
+.project-button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #ff6600;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.project-button:hover {
+  background-color: #e55b00;
 }
